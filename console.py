@@ -50,12 +50,38 @@ class HBNBCommand(cmd.Cmd):
         and save it to a json file
         """
         if name:
-            if name not in storage.allClass().keys():
+            class_name = name.split()[0]
+            if class_name not in storage.allClass().keys():
                 print("** class doesn't exist **")
             else:
-                tmp = storage.allClass()[name]()
-                tmp.save()
-                print(tmp.id)
+                class_obj = storage.allClass()[class_name]
+                temp = None
+                if len(name.split()) == 1:
+                    temp = class_obj()
+                    temp.save()
+                else:
+                    # Get named argument
+                    named_arg = {
+                        parameter.split('=')[0]: parameter.split('=')[1]
+                        for
+                        parameter in
+                        name.split()[1:]
+                                 }
+                    # Generate Correct type in the dictionary
+                    for key, value in named_arg.copy().items():
+                        # if string
+                        if value.find('"') != -1:
+                            value.replace("_", ' ')
+                            named_arg[key] = value.replace('_', ' ')\
+                                .replace('"', '')
+                        # If float
+                        elif value.find('.') != -1:
+                            named_arg[key] = float(value)
+                        # If integer
+                        elif value.isdigit():
+                            named_arg[key] = int(value)
+                    temp = class_obj(**named_arg)
+                    print(temp.id)
         else:
             print("** class name missing **")
 

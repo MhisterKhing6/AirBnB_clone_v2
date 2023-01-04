@@ -60,6 +60,9 @@ class BaseModel:
         :param args: None
         :param kwargs: named argument to initialize the object argument
         """
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         if kwargs and kwargs != {}:
             for key, value in kwargs.items():
                 if key != "__class__":
@@ -67,8 +70,4 @@ class BaseModel:
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
-        else:
-            self.id = str(uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
         storage.new(self)
