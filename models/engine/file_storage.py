@@ -29,7 +29,9 @@ class FileStorage:
         :return: __object dictionary
         """
         if cls:
-            return {k: v for (k, v) in FileStorage.__objects.items() if type(v) == cls}
+            return {k: v for (k, v) in FileStorage.__objects.items()
+                    if type(v) == cls
+                    }
         return type(self).__objects
 
     def delete(self, obj=None):
