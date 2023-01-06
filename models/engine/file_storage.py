@@ -22,13 +22,26 @@ class FileStorage:
     __objects = {}
     __filepath = 'file.json'
 
-    def all(self):
+    def all(self, cls=None):
 
         """
         give all object in __objects
         :return: __object dictionary
         """
+        if cls:
+            return {k: v for (k, v) in FileStorage.__objects.items()
+                    if
+                    v.__class__.__name__ == cls.__name__}
         return type(self).__objects
+
+    def delete(self, obj=None):
+        """
+        delete an object from the engine
+        args obj: object to delete if in database
+        """
+        if obj and obj in type(self).__objects.values():
+            del type(self).__objects["{}.{}".format(obj.__class__.__name__,
+                                                    obj.id)]
 
     def new(self, obj):
         """
