@@ -35,22 +35,33 @@ class FileStorage:
         return type(self).__objects
 
     def delete(self, obj=None):
+        """delete object from __objects
+        Args:
+            obj: given object
         """
-        delete an object from the engine
-        args obj: object to delete if in database
-        """
-        if obj and obj in type(self).__objects.values():
-            del type(self).__objects["{}.{}".format(obj.__class__.__name__,
-                                                    obj.id)]
+        if obj is None:
+            return
+        else:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if key in self.__objects:
+                del self.__objects[key]
+                self.save()
 
-    def new(self, obj):
+    def all(self, cls=None):
+        """returns a dictionary
+        Args:
+            cls: class type to filter return by
+        Return:
+            returns a dictionary of __object
         """
-        adds obj to __objects
-        :param obj:
-        :return: void
-        """
-        type(self).__objects["{}.{}".format(obj.__class__.__name__, obj.id)] =\
-            obj
+        if cls is None:
+            return self.__objects
+        else:
+            nx = {}
+            for key, value in self.__objects.items():
+                if type(value) == cls:
+                    nx[key] = value
+            return nx
 
     def save(self):
         """
