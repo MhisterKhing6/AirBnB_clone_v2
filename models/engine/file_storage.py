@@ -20,10 +20,11 @@ class FileStorage:
         reload : deserialize json file to objects if __file_path exit
     """
     __objects = {}
-    __filepath = 'file.json'
+    __file_path = 'file.json'
 
     def delete(self, obj=None):
-        """delete object from __objects
+        """
+        delete object from __objects
         Args:
             obj: given object
         """
@@ -66,7 +67,7 @@ class FileStorage:
         path
         :return:void
         """
-        with open(type(self).__filepath, "w", encoding="utf-8") as file:
+        with open(type(self).__file_path, "w", encoding="utf-8") as file:
             save = {k: v.to_dict() for (k, v) in type(self).__objects.items()}
             json.dump(save, file)
 
@@ -93,8 +94,8 @@ class FileStorage:
         deserialize file to __object
         :return: void
         """
-        if path.exists(type(self).__filepath):
-            with open(type(self).__filepath, 'r', encoding="utf-8") as file:
+        if path.exists(type(self).__file_path):
+            with open(type(self).__file_path, 'r', encoding="utf-8") as file:
                 type(self).__objects = {
                     k: self.allClass()[v['__class__']]
                     (v.copy())for (k, v) in json.load(file).items()
