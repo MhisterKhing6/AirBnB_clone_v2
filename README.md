@@ -4,9 +4,6 @@ This step focuses on the console
 where a command interpreter in python is
 build in order to manage object.
 
-..Using Database as Storage Engine..
-This Project use mysql database engine
-
 ..Starting the project.. 
 
 .1 Get and understand all the information needed 

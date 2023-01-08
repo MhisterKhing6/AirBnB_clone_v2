@@ -2,12 +2,15 @@
 from uuid import uuid4
 from datetime import datetime
 from models import storage
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime
 
 
 """
 Defines base objects that has common characteristics
 for its sub_class
 """
+Base = declarative_base()
 
 
 class BaseModel:
@@ -25,6 +28,13 @@ class BaseModel:
             save : update the update_at variable
             to_dict : returns dictionary representation of the model
     """
+
+    id = Column(String(60), nullable=False, primary_key=True)
+    created_at = Column(DateTime, nullable=False,
+                        default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False,
+                        default=datetime.utcnow())
+
     def __init__(self):
         """
         For initialization of instance variables
@@ -38,6 +48,7 @@ class BaseModel:
          updates the update_at variable with current date
         """
         self.updated_at = datetime.now()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
@@ -47,7 +58,16 @@ class BaseModel:
         my_dict['created_at'] = my_dict['created_at'].isoformat()
         my_dict['updated_at'] = my_dict['updated_at'].isoformat()
         my_dict["__class__"] = str(self.__class__.__name__)
+        if '_sa_instance_state' in my_dict.keys():
+            del my_dict['_sa_instance_state']
         return my_dict
+
+    def delete(self):
+        """
+        Delete and instance from the storage object
+        :return: void
+        """
+        storage.delete(self)
 
     def __str__(self):
         """returns string representation"""
@@ -60,9 +80,6 @@ class BaseModel:
         :param args: None
         :param kwargs: named argument to initialize the object argument
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
         if kwargs and kwargs != {}:
             for key, value in kwargs.items():
                 if key != "__class__":
@@ -70,4 +87,8 @@ class BaseModel:
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
-        storage.new(self)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+
