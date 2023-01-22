@@ -49,8 +49,11 @@ def do_deploy(archive_path):
                 'tar -xzf /tmp/{}\
                 -C {}'.format(filname, save_path)
                 )
+            f = run("mv -f {}/web_static/* {} ".format(save_path, save_path))
+            g = run('rm -rf {}/web_static'.format(save_path))
             d = run('rm /tmp/{}'.format(filname))
-            e = run('ln -sf {} /data/web_static/current'.format(save_path))
+            h = run('rm -rf /data/web_static/current')
+            e = run('ln -s {} /data/web_static/current'.format(save_path))
             if a.succeeded and b.succeeded and c.succeeded and \
                e.succeeded and d.succeeded:
                 return True
