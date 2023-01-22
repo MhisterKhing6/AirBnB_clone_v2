@@ -4,6 +4,9 @@ from fabric.api import *
 import datetime
 import os
 
+env.hosts = ['52.72.27.194', '52.201.158.148']
+env.user = "ubuntu"
+
 
 def do_pack():
     """
@@ -35,8 +38,6 @@ def do_deploy(archive_path):
     return:
         boolean
     """
-    env.hosts = ['52.201.158.148', '52.72.27.194']
-    env.user = 'ubuntu'
     if os.path.exists(archive_path):
         with settings(warn_only=True):
             a = put(archive_path, '/tmp/')
@@ -46,7 +47,7 @@ def do_deploy(archive_path):
             b = run('mkdir -p {}'.format(save_path))
             c = run(
                 'tar -xzf /tmp/{}\
-                -C {}'.format(filname,save_path)
+                -C {}'.format(filname, save_path)
                 )
             d = run('rm /tmp/{}'.format(filname))
             e = run('ln -sf {} /data/web_static/current'.format(save_path))
