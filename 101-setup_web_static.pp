@@ -32,7 +32,7 @@ exec {'setup the users permisson':
 }
 
 exec {'setup nginx server':
-    command => 'sed -i "/^server {$/a\\t location /hbnb_static {\n\t\talias /data/web_static/current;\n}" /etc/nginx/sites-available/default',
+    command => 'sed -i "/^server {$/a\    location \/hbnb_static {\n\t\talias /data/web_static/current;\n}" /etc/nginx/sites-available/default',
     path    => ['/usr/bin', '/usr/sbin'],
     provider => shell
 }

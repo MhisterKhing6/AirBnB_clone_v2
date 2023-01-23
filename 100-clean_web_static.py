@@ -88,7 +88,8 @@ def do_clean(number):
     return:
         nothing
     """
-    with lcd("versions"):
-        local("rm -rf $(ls -t | tail -$(($(ls | wc -l)-{})))".format(number))
-    with cd("/data/web_static/releases"):
-        run("rm -rf $(ls -t | tail -$(($(ls | wc -l)-{})))".format(number))
+    with settings(warn_only=True):
+        with lcd("versions"):
+            local("rm -rf $(ls -t | tail -$(($(ls | wc -l)-{})))".format(number))
+        with cd("/data/web_static/releases"):
+            run("rm -rf $(ls -t | tail -$(($(ls | wc -l)-{})))".format(number))
