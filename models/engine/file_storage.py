@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+import os.path
 from os import path
 import json
 """
@@ -97,5 +98,5 @@ class FileStorage:
             with open(type(self).__file_path, 'r', encoding="utf-8") as file:
                 type(self).__objects = {
                     k: self.allClass()[v['__class__']]
-                    (v.copy())for (k, v) in json.load(file).items()
-                                        }
+                    (v.copy()) for (k, v) in json.load(file).items()
+                    }

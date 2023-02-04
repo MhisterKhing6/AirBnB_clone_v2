@@ -23,8 +23,19 @@ def root_hbnb():
 
 
 @app.route("/c/<text>", strict_slashes=False)
-def root_hbnb2(text):
+def root_cisfun(text):
     return "C {}".format(escape(text.replace('_', ' ')))
+
+
+@app.route('/python/', strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def root_python(text="is cool"):
+    return "Python {}".format(escape(text.replace('_', ' ')))
+
+
+@app.route("/number/<int:n>")
+def route_number(n):
+    return "{} is a number".format(n)
 
 
 if __name__ == '__main__':

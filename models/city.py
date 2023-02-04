@@ -13,6 +13,7 @@ class City(BaseModel, Base):
     City class
     """
     __tablename__ = 'cities'
+    from models.place import Place
 
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
     name = Column(String(128), nullable=False)
