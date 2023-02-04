@@ -38,13 +38,12 @@ def route_number(n):
     return "{} is a number".format(n)
 
 
-@app.route("/number_template/<int:n>")
+@app.route("/number_template/<int:n>", strict_slashes=False)
 def route_number_template(n):
     return render_template("5-number.html", n=int(n))
 
 
-
-@app.route("/number_odd_or_even/<n>")
+@app.route("/number_odd_or_even/<n>", strict_slashes=False)
 def route_even_or_odd(n):
     return render_template("6-number_odd_or_even.html", n=n)
 
