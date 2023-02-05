@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<HEAD>
+    <TITLE>Title</TITLE>
+</HEAD>
+    <BODY>
+        <H1>States</H1>
+        <UL>
+            {% for values in how.values() %}
+            <LI>{{values['id']}}: <B>{{values['name']}}</B></LI>
+            {% endfor %}
+        </UL>
+    </BODY>
+</HTML>
