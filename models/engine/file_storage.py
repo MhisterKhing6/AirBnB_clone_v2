@@ -1,5 +1,4 @@
-#! /usr/bin/env python3
-import os.path
+#!/usr/bin/python3
 from os import path
 import json
 """
@@ -92,20 +91,12 @@ class FileStorage:
     def reload(self):
         """serialize the file path to JSON file path
         """
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.city import City
-        from models.review import Review
-        from models.state import State
-        from models.amenity import Amenity
-        from models.place import Place
-        try:
-            with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for key, value in (json.load(f)).items():
-                    value = eval(value["__class__"])(**value)
-                    self.__objects[key] = value
-        except FileNotFoundError:
-            pass
+        if path.exists(type(self).__file_path):
+            with open(type(self).__file_path, 'r', encoding="utf-8") as file:
+                type(self).__objects = {
+                    k: self.allClass()[v['__class__']]
+                    (v.copy()) for (k, v) in json.load(file).items()
+                }
 
     def close(self):
         """ deserializes the JSON file to objects

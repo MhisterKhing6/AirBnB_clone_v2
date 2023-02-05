@@ -1,21 +1,12 @@
-#!/usr/bin/python3
-"""
-Cretes a flask app and listens on 0.0.0.0:500
-"""
-from flask import Flask, escape, render_template
+import models
 from models import storage
 from models.state import State
-from models.place import Place
-app = Flask(__name__)
+from flask import Flask, render_template
 
-how = storage.all(State)
-@app.route('/states_list')
-def rout_list():
-    """
-    render a page for html list
-    """
-    return render_template('7-states_list.html', how=how)
+l = Flask(__name__)
+@l.route("/")
+def name():
+    print(storage.all())
+    return render_template()
 
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+l.run(host="0.0.0.0")
